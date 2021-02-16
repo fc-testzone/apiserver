@@ -32,14 +32,6 @@ func (d *Database) Update(table interface{}, fieldCon string, condition interfac
 	return d.db.Model(table).Where(fieldCon+" = ?", condition).Update(field, newData).Error
 }
 
-func (d *Database) Find(table interface{}, fieldCon string, condition interface{}, out interface{}) error {
-	return d.db.Model(table).Where(fieldCon+" = ?", condition).Find(&out).Error
-}
-
-func (d *Database) Find2(table interface{}, fieldCon string, condition interface{}, fieldCon2 string, condition2 interface{}, out interface{}) error {
-	return d.db.Model(table).Where(fieldCon+" = ? AND "+fieldCon2+" = ?", condition, condition2).Find(&out).Error
-}
-
-func (d *Database) FindAll(table interface{}, out interface{}) error {
-	return d.db.Model(table).Find(out).Error
+func (d *Database) Find(table interface{}, condition interface{}, out interface{}) error {
+	return d.db.Model(table).Where(condition).Find(out).Error
 }

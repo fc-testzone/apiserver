@@ -31,7 +31,7 @@ func (c *Content) Posts(posts *[]Post) error {
 	}
 
 	// Find all posts
-	err = db.FindAll(&Post{}, posts)
+	err = db.Find(&Post{}, &Post{}, posts)
 	if err != nil {
 		return err
 	}

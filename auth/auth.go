@@ -57,12 +57,13 @@ func (a *Authorizer) CheckUser(login string, passwd string) error {
 		return err
 	}
 
+	// Hash password
 	var sha = sha1.New()
 	sha.Write([]byte(passwd))
 	var hPasswd = hex.EncodeToString(sha.Sum(nil))
 
 	// Find user in db
-	err = db.Find2(&User{}, "login", login, "passwd", hPasswd, usr)
+	err = db.Find(&User{}, &User{Login: login, Passwd: hPasswd}, &usr)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (a *Authorizer) CreateToken(login string, passwd string) (string, error) {
 
 func (a *Authorizer) CheckToken(token string) error {
 	var dbCfg = a.cfg.Settings().DB
-	var usr []*User
+	var usr []User
 
 	// Connect to DB
 	var db = db.NewDatabase()
@@ -105,7 +106,7 @@ func (a *Authorizer) CheckToken(token string) error {
 	}
 
 	// Find token in db
-	err = db.Find(&User{}, "token", token, usr)
+	err = db.Find(&User{}, &User{Token: token}, &usr)
 	if err != nil {
 		return err
 	}

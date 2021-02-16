@@ -114,10 +114,10 @@ func (w *WebServer) ContentHandler(ctx *fasthttp.RequestCtx) {
 	}
 
 	var posts []content.Post
-	var err2 = w.con.Posts(&posts)
-	if err2 != nil {
+	err = w.con.Posts(&posts)
+	if err != nil {
 		ctx.Response.Header.SetStatusCode(503)
-		w.log.Error("WEB", "Posts not found", err2.Error())
+		w.log.Error("WEB", "Posts not found", err.Error())
 		return
 	}
 
