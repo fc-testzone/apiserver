@@ -36,6 +36,10 @@ func (d *Database) Find(table interface{}, fieldCon string, condition interface{
 	return d.db.Model(table).Where(fieldCon+" = ?", condition).Find(&out).Error
 }
 
+func (d *Database) Find2(table interface{}, fieldCon string, condition interface{}, fieldCon2 string, condition2 interface{}, out interface{}) error {
+	return d.db.Model(table).Where(fieldCon+" = ?", condition).Where(fieldCon2+" = ?", condition2).Find(&out).Error
+}
+
 func (d *Database) FindAll(table interface{}, out interface{}) error {
 	return d.db.Model(table).Find(out).Error
 }

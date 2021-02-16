@@ -77,6 +77,13 @@ func (w *WebServer) LoginHandler(ctx *fasthttp.RequestCtx) {
 
 	w.log.Info("WEB", "Login user \""+regData.Login+"\"")
 
+	var err3 = w.auth.CheckUser(regData.Login, regData.Passwd)
+	if err3 != nil {
+		ctx.Response.Header.SetStatusCode(401)
+		w.log.Error("WEB", "User not found", err3.Error())
+		return
+	}
+
 	var token, err2 = w.auth.CreateToken(regData.Login, regData.Passwd)
 	if err2 != nil {
 		ctx.Response.Header.SetStatusCode(401)
